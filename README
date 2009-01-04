@@ -1,0 +1,7 @@
+h1. Encouraged Commentary
+
+This is the source code for an approach to managing comments which was evangelized and demonstrated in this blog post:
+http://donttrustthisguy.com/2009/01/04/encouraged-commentary/
+
+This project relies on jQuery and the jQuery ScrollTo plugin. You can find out more about it here:
+http://plugins.jquery.com/project/ScrollTo
