@@ -45,7 +45,7 @@ $(document).ready( function() {
       if(permalink && author) {
          directive = "<p><a href=\""+permalink+"\">@"+author+"</a>:</p>\n"
       }
-      $('#comment').val(directive+"<blockquote>"+quote+"</blockquote>\n<p>\n<!-- Start your comment here. -->\n</p>");
+      $('#comment').val(directive+"<blockquote>"+quote+"</blockquote>\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
       $.scrollTo('#comment', {duration: 1000});
       $(this).fadeTo(1,0);
       widget.hide();
