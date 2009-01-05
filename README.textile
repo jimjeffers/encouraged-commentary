@@ -1,7 +1,15 @@
 h1. Encouraged Commentary
 
-This is the source code for an approach to managing comments which was evangelized and demonstrated in this blog post:
-http://donttrustthisguy.com/2009/01/04/encouraged-commentary/
+This is the source code for an approach to managing comments which was "evangelized and demonstrated on my blog DontTrustThisGuy.com":http://donttrustthisguy.com/2009/01/04/encouraged-commentary/.
 
-This project relies on jQuery and the jQuery ScrollTo plugin. You can find out more about it here:
-http://plugins.jquery.com/project/ScrollTo
+h2. Dependencies
+
+This project relies on "jQuery":http://jquery.com and the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo.
+
+h2. Next Steps / Ideas
+
+*Looser coupling:* The code in my example is very tightly coupled to my markup. It would be better to provide a good convention which would allow others to incorporate this functionality into their site without overhauling their markup.
+
+*Toggling functionality:* For this proof of concept I wanted to incorporate all of my ideas. Text highlighting, related comments, related replies, and basic quote/reply buttons. It would be better if authors could easily adjust the script to toggle any of that functionality on or off should they only prefer to utilize some of these ideas.
+
+*Improved demo CSS:* Right now I'm linking to my site's stylesheet in the demo.html file. It would be better to provide a basic custom CSS file with the minimal rules so that folks can easily see what styling is involved to customize the presentation of these utilities.
