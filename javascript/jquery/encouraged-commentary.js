@@ -43,7 +43,7 @@ $(document).ready( function() {
             }
             quote = getSelText();
          }
-      })
+      });
    });
    
    widget.hover(
@@ -112,7 +112,7 @@ $(document).ready( function() {
       var currentAuthor = findAuthorFor(this); // 'this' is a comment.
       var currentPermalink = findPermalinkFor(this);
       var currentAnchor = getAnchor(currentPermalink.href);
-      var reference = '<a href="'+currentPermalink.href+'">'+currentPermalink.innerHTML+'</a>'
+      var reference = '<a href="'+currentPermalink.href+'">'+currentPermalink.innerHTML+'</a>';
       if(!relatedComments[currentAuthor.text]) {
          relatedComments[currentAuthor.text] = new Array(reference);
       } else {
@@ -172,8 +172,7 @@ $(document).ready( function() {
                   commentControlsTimeout = false;
                }, 500);  
             }
-         }
-      );
+         });
    });
 });
 
@@ -192,7 +191,7 @@ function findCommentFor(el) {
       el = $(el.parent());
    }
    return el;
-}
+};
 
 /*
    FUNCTION:
@@ -200,8 +199,8 @@ function findCommentFor(el) {
    Returns a permalink for the specified element.
 */
 function findPermalinkFor(el){
-   return $(el).find('.comment-meta a').get(0);
-}
+   return $(el).find('.comment-permalink').get(0);
+};
 
 /*
    FUNCTION:
@@ -209,8 +208,8 @@ function findPermalinkFor(el){
    Returns a the author of the specified element.
 */
 function findAuthorFor(el){
-   return $(el).find('.fn a').get(0);
-}
+   return $(el).find('.comment-author').get(0);
+};
 
 /*
    FUNCTION:
@@ -225,7 +224,7 @@ function printRelatives(relatives,current){
       out += '<li class="'+liClass+'">'+relatives[i]+'</li>';
    };
    return out;
-}
+};
 
 /*
    FUNCTION:
@@ -238,7 +237,7 @@ function printReplies(replies){
       out += '<li>'+replies[i]+'</li>';
    };
    return out;
-}
+};
 
 /*
    FUNCTION:
@@ -248,7 +247,7 @@ function printReplies(replies){
 function setCurrentComment(id) {
    $('.commentlist .current-comment').removeClass('current-comment');
    $($('.commentlist '+id).get(0)).addClass('current-comment');
-}
+};
 
 /*
    FUNCTION:
@@ -257,7 +256,7 @@ function setCurrentComment(id) {
 */
 function getAnchor(href){
    return '#'+href.split("#")[1];
-}
+};
 
 /*
    FUNCTION:
@@ -295,7 +294,7 @@ function setupComment(target,quote) {
    }
    $('#comment').val(directive+quote+"\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
    $.scrollTo('#comment', {duration: 1000});
-}
+};
 
 /*
    FUNCTION:
@@ -323,4 +322,4 @@ function getSelText()
    } else {
       return false;
    }
-}
+};

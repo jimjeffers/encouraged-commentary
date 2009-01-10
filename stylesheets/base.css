@@ -34,10 +34,13 @@ into your own stylesheet and enhance them to your own taste.
 
 /* =ENCOURAGED COMMENTARY
    ------------------------------------------------------ */
+   /* These rules are just here for reference change them or remove them as you see fit. */
    .commentlist {
       margin-left: 60px;
    }
-
+   
+   /* I like to use absolute positioning to control the comment controls. If you want 
+   to do this as well keep position: relative; for the 'comment' class as seen in this rule. */
    .comment {
       padding: 1em;
       position: relative;
@@ -52,6 +55,7 @@ into your own stylesheet and enhance them to your own taste.
       background: rgba(0,0,0,.1);
    }
    
+   /* Styles for the 'respond' button. This button is a span with the id of 'comment-respond'. */
    span#comment-respond,
    .comment-reply,
    .comment-quote {
@@ -68,7 +72,31 @@ into your own stylesheet and enhance them to your own taste.
       -moz-border-radius: 5px;
       -moz-border-radius: 5px;
    }
+   
+   /* Styles for the comment controls. */
+   .comment-controls {
+      bottom: 0;
+      left: 620px;
+      padding: 10px 20px;
+      position: absolute;
+      top: 0;
+      width: 270px;
+   }
 
+   .comment-controls h6 {
+      font-weight: bold;
+   }
+   
+   .comment-controls div{
+      clear: both;
+   }
+   
+   .comment-controls ol {
+      display: block;
+      font-size: 0.875em;
+   }
+   
+   /* Styles for the comment 'reply' and 'quote' buttons. */
    .comment-reply, 
    .comment-quote {
       background: rgba(0,0,0,.1);
@@ -89,35 +117,15 @@ into your own stylesheet and enhance them to your own taste.
    .comment-quote {
       left: -50px;
    }
-
-   .comment-controls {
-      bottom: 0;
-      left: 620px;
-      padding: 10px 20px;
-      position: absolute;
-      top: 0;
-      width: 270px;
-   }
-
-   .comment-controls h6 {
-      font-weight: bold;
-   }
    
-   .comment-controls div{
-      clear: both;
-   }
-   .comment-controls ol {
-      display: block;
-      font-size: 0.875em;
-   }
-
+   /* Styles for an individual list item in the comment controls */
    .comment-controls ol li {
       display: block;
       float: left;
       margin: 4px 8px 0 0;
       padding: 2px 0;
    }
-
+   
    .comment-controls ol li a {
       background: #111;
       color: #999;
@@ -130,4 +138,10 @@ into your own stylesheet and enhance them to your own taste.
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
       -moz-border-radius: 5px;
+   }
+   
+   /* Highlight the current comment in the list of related comments. */
+   .comment-controls ol li.current a {
+      background: #f90;
+      color: #333;
    }
