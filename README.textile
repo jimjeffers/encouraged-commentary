@@ -2,13 +2,13 @@ h1. Encouraged Commentary
 
 This is the source code for an approach to managing comments which was "evangelized and demonstrated on my blog DontTrustThisGuy.com":http://donttrustthisguy.com/2009/01/04/encouraged-commentary/.
 
-h2. Usage
+h1. Usage
 
-h3. Quotable Content
+h2. Quotable Content
 
 Using this script is easy. Simply add the class 'quotable' to any containing element in your markup that should be quotable. As an example, if your blog post is in a div with an id of 'entry' simply add the 'quotable' class to that div. Now users can highlight text to quote your article!
 
-h4. Example
+h3. Example
 
 This:
 
@@ -41,11 +41,11 @@ Becomes:
    .../body>
 </pre>
 
-h3. Quotable Comments
+h2. Quotable Comments
 
 For quotable comments things are a little different. Here you must *refrain from using the quotable class* and instead follow some basic conventions in your comment markup. First, give the HTML object that contains all of your comments the class 'commentlist' then make sure every individual comment has the class 'comment' applied to it.
 
-h4. Setup the Comment List Container
+h3. Setup the Comment List Container
 
 In many blogging systems you may have a heading for your comments. This traditionally has the id of comments. Somewhere below that is a list of responses to your article. This can either be a _ol_, _ul_, or _div_. Wordpress, for example, traditionally uses an _ol_ in most cases. To designate your comment container just add the class *'commentlist'* to this element.
 
@@ -85,7 +85,7 @@ Becomes:
    .../body>
 </pre>
 
-h4. Designate Your Comments
+h3. Designate Your Comments
 
 You will need to *ensure that every individual comment is contained in an element with a unique ID* and has the class *'comment'*.
 
@@ -123,7 +123,7 @@ Becomes:
    .../body>
 </pre>
 
-h4. Designate Comment Permalinks
+h3. Designate Comment Permalinks
 
 Now we need to add a class to each permalink for an individual comment. Simply add the class *'comment-permalink'* to the anchor of the permalink for that individual comment.
 
@@ -163,7 +163,7 @@ Becomes:
    .../body>
 </pre>
 
-h4. Designate Comment Authors
+h3. Designate Comment Authors
 
 Last but not least, you will need to designate the element in your HTML containing the comment's author name. Simply add the class *'comment-author'* to this element.
 
@@ -205,13 +205,10 @@ Becomes:
    .../body>
 </pre>
 
-h4. Example
 
-Examples soon.
+h1. Toggling Functionality
 
-h3. Toggling Functionality
-
-h4. Sorted Commentary
+h2. Sorted Commentary
 
 To *turn this feature on* add the class "sorted-commentary" to the comment list container in your HTML.
 
@@ -233,7 +230,7 @@ Becomes:
 </code>
 </pre>
 
-h4. Disable Related Comments: 
+h2. Disable Related Comments: 
 
 To *turn this feature off* add the class "no-relatives" to the comment list container in your HTML.
 
@@ -255,7 +252,7 @@ Becomes:
 </code>
 </pre>
 
-h4. Disable Related Replies: 
+h2. Disable Related Replies: 
 
 To *toggle this feature off* add the class "no-replies" to the comment list container in your HTML.
 
@@ -277,7 +274,7 @@ Becomes:
 </code>
 </pre>
 
-h4. Disable Comment Quote Button: 
+h2. Disable Comment Quote Button: 
 
 To *toggle this feature off* add the class "no-quote-control" to the comment list container in your HTML.
 
@@ -299,7 +296,7 @@ Becomes:
 </code>
 </pre>
 
-h4. Disable Comment Reply Button: 
+h2. Disable Comment Reply Button: 
 
 To *toggle this feature off* add the class "no-reply-control" to the comment list container in your HTML.
 
@@ -321,11 +318,11 @@ Becomes:
 </code>
 </pre>
 
-h2. Dependencies
+h1. Dependencies
 
 This project relies on "jQuery":http://jquery.com and the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo.
 
-h2. Next Steps / Ideas
+h1. Next Steps / Ideas
 
 *Build Quote HTML on Submit:* Instead of embedding straight HTML, add a user control to the comment form showing the quote and target author. This will allow the user to enter their comment in as normal while having the HTML output created on form submit.
 
