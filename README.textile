@@ -4,6 +4,19 @@ This is the source code for an approach to managing comments which was "evangeli
 
 h1. Usage
 
+h2. Include the Script and Dependencies
+
+If you're not using "jQuery":http://jquery.com already you will need to add it to your project. You will also need to include the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo as well. Finally, I recommend using the minimized version of the encouraged commentary script which reduces the file size to only 5.8kb.
+
+<pre>
+   <code>
+      <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+      <script src="javascript/jquery/jquery.scrollTo-min.js" type="text/javascript"></script>
+      <script src="javascript/jquery/encouraged-commentary-min.js" type="text/javascript"></script>
+   </code>
+   .../body>
+</pre>
+
 h2. Quotable Content
 
 Using this script is easy. Simply add the class 'quotable' to any containing element in your markup that should be quotable. As an example, if your blog post is in a div with an id of 'entry' simply add the 'quotable' class to that div. Now users can highlight text to quote your article!
@@ -165,7 +178,7 @@ Becomes:
 
 h3. Designate Comment Authors
 
-Last but not least, you will need to designate the element in your HTML containing the comment's author name. Simply add the class *'comment-author'* to this element.
+Next, you will need to designate the element in your HTML containing the comment's author name. Simply add the class *'comment-author'* to this element.
 
 This:
 
@@ -193,6 +206,7 @@ Becomes:
 <code>
    <ol class="commentlist">
       ...
+      <li id="comment-35" class="comment">
       <div class="vcard">
          <cite class="fn">
             <a href='http://example.com' rel='external' class='url comment-author-name'>Jon Doe</a>
@@ -205,6 +219,49 @@ Becomes:
    .../body>
 </pre>
 
+h3. Designate Comment Entry Content
+
+Last but not least, you will need to wrap the body of your comment's text in an with the class *'entry-content'*.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      ...
+      <li id="comment-35" class="comment">
+         <p>My comment is full of useful advice...</p>
+         <p>And it goes on and on and on..</p>
+         ...
+         <p>Yeah it was a lengthy comment.</p>
+         ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      ...
+      <li id="comment-35" class="comment">
+         <div class="entry-content">
+            <p>My comment is full of useful advice...</p>
+            <p>And it goes on and on and on..</p>
+            ...
+            <p>Yeah it was a lengthy comment.</p>
+         </div>
+         ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
 
 h1. Toggling Functionality
 
@@ -276,7 +333,7 @@ Becomes:
 
 h2. Disable Comment Quote Button: 
 
-To *toggle this feature off* add the class "no-quote-control" to the comment list container in your HTML.
+To *toggle this feature off* add the class *"no-quote-control"* to the comment list container in your HTML.
 
 This:
 
@@ -298,7 +355,7 @@ Becomes:
 
 h2. Disable Comment Reply Button: 
 
-To *toggle this feature off* add the class "no-reply-control" to the comment list container in your HTML.
+To *toggle this feature off* add the class *"no-reply-control"* to the comment list container in your HTML.
 
 This:
 
