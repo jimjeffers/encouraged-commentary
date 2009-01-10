@@ -1,0 +1,45 @@
+/* =DEMO STYLES
+   ------------------------------------------------------ */
+   body {
+      background: #333;
+      color: #ddd;
+      font: normal normal normal 1em/1.5em Arial, sans-serif;
+      padding: 20px 40px;
+      position: relative;
+      width: 680px;
+   }
+   
+   h1, h2, h3 {
+      display: block;
+      margin: 1em 0;
+   }
+   
+   h1 {
+      font-size: 2em;
+   }
+   
+   h2 {
+      font-size: 1.5em;
+   }
+   
+   h3 {
+      font-size: 1.25em;
+   }
+   
+   p {
+      margin: 0.5em 0;
+   }
+   
+   .comment blockquote {
+      border-left: 2px solid #666;
+      color: #999;
+      font-size: 0.875em;
+      font-style: italic;
+      line-height: 1.25em;
+      margin: 10px;
+      padding-left: 10px;
+   }
+   
+   a {
+      color: #f90;
+   }
