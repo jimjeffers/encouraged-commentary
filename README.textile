@@ -35,14 +35,175 @@ Becomes:
       <p>The content of this article is as follows.</p>
       ...
    </div>
-   <ol id="comments">
+   <h3 id="comments">3 Comments</h3>
+   <ol>
 </code>
    .../body>
 </pre>
 
 h3. Quotable Comments
 
-For quotable comments things are a little different. Here you must *refrain from using the quotable class* and instead follow some basic conventions in your comment markup. First, give the HTML object that contains all of your comments the class 'commentlist' then make sure every individual comment has the class 'comment' applied to it. _More Explanation Here to Come._
+For quotable comments things are a little different. Here you must *refrain from using the quotable class* and instead follow some basic conventions in your comment markup. First, give the HTML object that contains all of your comments the class 'commentlist' then make sure every individual comment has the class 'comment' applied to it.
+
+h4. Setup the Comment List Container
+
+In many blogging systems you may have a heading for your comments. This traditionally has the id of comments. Somewhere below that is a list of responses to your article. This can either be a _ol_, _ul_, or _div_. Wordpress, for example, traditionally uses an _ol_ in most cases. To designate your comment container just add the class *'commentlist'* to this element.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <div id="blog-entry" class="quotable">
+      ...
+   </div>
+   <h3 id="comments">3 Comments</h3>
+   <ol>
+      <li id="comment-35">
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <div id="blog-entry" class="quotable">
+      ...
+   </div>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
+      <li id="comment-35">
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+h4. Designate Your Comments
+
+You will need to *ensure that every individual comment is contained in an element with a unique ID* and has the class *'comment'*.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      <li id="comment-35">
+      ...
+      </li>
+      <li id="comment-36">
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      <li id="comment-35" class="comment">
+      ...
+      </li>
+      <li id="comment-36" class="comment">
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+h4. Designate Comment Permalinks
+
+Now we need to add a class to each permalink for an individual comment. Simply add the class *'comment-permalink'* to the anchor of the permalink for that individual comment.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      <li id="comment-35" class="comment">
+      ...
+      <div class="comment-meta commentmetadata">
+         <a href="#comment-35">January 4, 2009 at 4:27 pm</a>
+      </div>
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      <li id="comment-35" class="comment">
+      ...
+      <div class="comment-meta commentmetadata">
+         <a href="#comment-35" class="comment-permalink">January 4, 2009 at 4:27 pm</a>
+      </div>
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+h4. Designate Comment Authors
+
+Last but not least, you will need to designate the element in your HTML containing the comment's author name. Simply add the class *'comment-author'* to this element.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      ...
+      <div class="vcard">
+         <cite class="fn">
+            <a href='http://example.com' rel='external' class='url'>Jon Doe</a>
+         </cite> <span class="says">says:</span>      
+      </div>
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <ol class="commentlist">
+      ...
+      <div class="vcard">
+         <cite class="fn">
+            <a href='http://example.com' rel='external' class='url comment-author-name'>Jon Doe</a>
+         </cite> <span class="says">says:</span>      
+      </div>
+      ...
+      </li>
+   </ol>
+</code>
+   .../body>
+</pre>
 
 h4. Example
 
@@ -58,7 +219,8 @@ This:
 
 <pre>
 <code>
-   <ol id="comments" class="commentlist">
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
 </code>
 </pre>
 
@@ -66,7 +228,8 @@ Becomes:
 
 <pre>
 <code>
-   <ol id="comments" class="commentlist sorted-commentary">
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist sorted-commentary">
 </code>
 </pre>
 
@@ -78,7 +241,8 @@ This:
 
 <pre>
 <code>
-   <ol id="comments" class="commentlist">
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
 </code>
 </pre>
 
@@ -86,7 +250,8 @@ Becomes:
 
 <pre>
 <code>
-   <ol id="comments" class="commentlist no-relatives">
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist no-relatives">
 </code>
 </pre>
 
@@ -98,7 +263,8 @@ This:
 
 <pre>
 <code>
-   <ol id="comments" class="commentlist">
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
 </code>
 </pre>
 
@@ -106,7 +272,52 @@ Becomes:
 
 <pre>
 <code>
-   <ol id="comments" class="commentlist no-replies">
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist no-replies">
+</code>
+</pre>
+
+h4. Disable Comment Quote Button: 
+
+To *toggle this feature off* add the class "no-quote-control" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist no-quote-control">
+</code>
+</pre>
+
+h4. Disable Comment Reply Button: 
+
+To *toggle this feature off* add the class "no-reply-control" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist no-reply-control">
 </code>
 </pre>
 
