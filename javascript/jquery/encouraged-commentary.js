@@ -84,7 +84,7 @@ $(document).ready( function() {
    //
    var relatedComments = new Array();
    var relatedReplies = new Array();
-   
+   var sortedCommentary = $($('.commentlist').get(0)).hasClass('sorted-commentary');
    $('.commentlist .comment p:first-child a:first-child').each(function() { 
       if(this.text.substring(1,-1) == "@") {
          var targetAuthor = this.text.substring(1,this.text.length);
@@ -93,12 +93,13 @@ $(document).ready( function() {
          var replyPermalink = findPermalinkFor(replyComment);
          var targetAnchor = getAnchor(this.href);
          var reference = '<a href="'+replyPermalink.href+'">'+replyAuthor.innerHTML+'</a>';
-         // Threading Test
+         
+         // Sorting / Response handling.
          var parentComment = $('.commentlist #'+targetAnchor.substr(1,targetAnchor.length));
-         if(parentComment.length > 0){
+         if(parentComment.length > 0 && sortedCommentary){
             $(parentComment.get(0)).after(replyComment.addClass('response'));
          }
-         // END Threading Test
+         
          if(!relatedReplies[targetAnchor]) {
             relatedReplies[targetAnchor] = new Array(reference);
          } else {
