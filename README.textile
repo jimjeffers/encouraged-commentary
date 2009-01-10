@@ -6,7 +6,7 @@ h1. Usage
 
 h2. Include the Script and Dependencies
 
-If you're not using "jQuery":http://jquery.com already you will need to add it to your project. You will also need to include the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo as well. Finally, I recommend using the minimized version of the encouraged commentary script which reduces the file size to only 5.8kb.
+If you're not using "jQuery":http://jquery.com already you will need to add it to your project. You will also need to include the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo as well. Finally, I recommend using the minimized version of the encouraged commentary script which reduces the file size to only 5.8kb. You should include these scripts in the following order, and also embed them in your HTML just before you close the body tag in your template file. This ensures faster loading of your page.
 
 <pre>
    <code>
