@@ -130,12 +130,12 @@ $(document).ready( function() {
          function(){
             if(relatedComments[currentAuthor.text].length > 1 || relatedReplies[currentAnchor]) {
                if($(this).find('div.comment-controls div.related-replies, div.comment-controls div.related-comments').length < 1) {
-                  if(relatedReplies[currentAnchor]){
+                  if(relatedReplies[currentAnchor] && !$($('.commentlist').get(0)).hasClass('no-replies')){
                      var wording = "";
                      (relatedReplies[currentAnchor].length > 1) ? wording = "replies" : wording = "reply";
                      commentControls.append('<div class="related-replies"><h6>'+(relatedReplies[currentAnchor].length)+' '+wording+' to this comment</h6><ol>'+printReplies(relatedReplies[currentAnchor])+'</ol></div>');
                   }
-                  if(relatedComments[currentAuthor.text].length > 1){
+                  if(relatedComments[currentAuthor.text].length > 1 && !$($('.commentlist').get(0)).hasClass('no-relatives')){
                      var wording = "";
                      (relatedComments[currentAuthor.text].length-1 > 1) ? wording = "comments" : wording = "comment";
                      commentControls.append('<div class="related-comments"><h6>'+(relatedComments[currentAuthor.text].length-1)+' other '+wording+' from '+currentAuthor.text+'</h6><ol>'+printRelatives(relatedComments[currentAuthor.text],reference)+'</ol></div>');
