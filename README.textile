@@ -2,14 +2,130 @@ h1. Encouraged Commentary
 
 This is the source code for an approach to managing comments which was "evangelized and demonstrated on my blog DontTrustThisGuy.com":http://donttrustthisguy.com/2009/01/04/encouraged-commentary/.
 
+h2. Usage
+
+h3. Quotable Content
+
+Using this script is easy. Simply add the class 'quotable' to any containing element in your markup that should be quotable. As an example, if your blog post is in a div with an id of 'entry' simply add the 'quotable' class to that div. Now users can highlight text to quote your article!
+
+h4. Example
+
+This:
+
+<pre>
+   <body...
+<code>
+   <h2>My Blog Article</h2>
+   <div id="blog-entry">
+      <p>The content of this article is as follows.</p>
+      ...
+   </div>
+   <ol id="comments">
+</code>
+   ../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <h2>My Blog Article</h2>
+   <div id="blog-entry" class="quotable">
+      <p>The content of this article is as follows.</p>
+      ...
+   </div>
+   <ol id="comments">
+</code>
+   .../body>
+</pre>
+
+h3. Quotable Comments
+
+For quotable comments things are a little different. Here you must *refrain from using the quotable class* and instead follow some basic conventions in your comment markup. First, give the HTML object that contains all of your comments the class 'commentlist' then make sure every individual comment has the class 'comment' applied to it. _More Explanation Here to Come._
+
+h4. Example
+
+Examples soon.
+
+h3. Toggling Functionality
+
+h4. Sorted Commentary
+
+To *turn this feature on* add the class "sorted-commentary" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <ol id="comments" class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <ol id="comments" class="commentlist sorted-commentary">
+</code>
+</pre>
+
+h4. Disable Related Comments: 
+
+To *turn this feature off* add the class "no-relatives" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <ol id="comments" class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <ol id="comments" class="commentlist no-relatives">
+</code>
+</pre>
+
+h4. Disable Related Replies: 
+
+To *toggle this feature off* add the class "no-replies" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <ol id="comments" class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <ol id="comments" class="commentlist no-replies">
+</code>
+</pre>
+
 h2. Dependencies
 
 This project relies on "jQuery":http://jquery.com and the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo.
 
 h2. Next Steps / Ideas
 
-*Looser coupling:* The code in my example is very tightly coupled to my markup. It would be better to provide a good convention which would allow others to incorporate this functionality into their site without overhauling their markup.
+*Build Quote HTML on Submit:* Instead of embedding straight HTML, add a user control to the comment form showing the quote and target author. This will allow the user to enter their comment in as normal while having the HTML output created on form submit.
 
-*Toggling functionality:* For this proof of concept I wanted to incorporate all of my ideas. Text highlighting, related comments, related replies, and basic quote/reply buttons. It would be better if authors could easily adjust the script to toggle any of that functionality on or off should they only prefer to utilize some of these ideas.
+*Add live preview support:* Allow the user to see a live preview of their comment with response and target author as they type their comment. This will provide the user better feedback as to what has happened now that they have utilized this advanced commenting system.
 
-*Improved demo CSS:* Right now I'm linking to my site's stylesheet in the demo.html file. It would be better to provide a basic custom CSS file with the minimal rules so that folks can easily see what styling is involved to customize the presentation of these utilities.
+*Lightbox Form:* Users are not anticipating the page scroll to the bottom of the page. Instead it may be more applicable to present the comment form in a lightbox.
+
+*IE6/7/8 Support:* It looks like there is an error with the text highlight functionality in IE. If a user highlights some text in IE7 and responds to a comment the directive is not caught. I believe it has something to do with the target that is being captured from the onMouseUp listener.
+
+-*Looser coupling:* The code in my example is very tightly coupled to my markup. It would be better to provide a good convention which would allow others to incorporate this functionality into their site without overhauling their markup.-
+
+-*Toggling functionality:* For this proof of concept I wanted to incorporate all of my ideas. Text highlighting, related comments, related replies, and basic quote/reply buttons. It would be better if authors could easily adjust the script to toggle any of that functionality on or off should they only prefer to utilize some of these ideas.-
+
+-*Improved demo CSS:* Right now I'm linking to my site's stylesheet in the demo.html file. It would be better to provide a basic custom CSS file with the minimal rules so that folks can easily see what styling is involved to customize the presentation of these utilities.-
