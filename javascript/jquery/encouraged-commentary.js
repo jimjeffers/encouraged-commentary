@@ -1,7 +1,22 @@
-// WRITTEN BY J. JEFFERS EXCEPT WHERE CREDIT IS GIVEN.
-// IF YOU LIKE THESE TAKE THEM AS YOUR OWN AND MAKE THEM WORK FOR YOU!
+/**
+* Encouraged Commentary - A comment traverser to help manage conversations on web pages.
+* Copyright (c) 2009 Jim Jeffers - jim(at)donttrustthisguy(dot)com | http://donttrustthisguy.com
+* Dual licensed under MIT and GPL.
+* Date: 1/09/2009
+* @author Jim Jeffers
+* @version 1.0
+*
+* Intro Article:
+* http://donttrustthisguy.com/2009/01/04/encouraged-commentary/ 
+*
+* Source:
+* http://github.com/jimjeffers/encouraged-commentary/tree/master
+*/
+
 $(document).ready( function() {   
-   // Comment Quote Trick
+   //
+   // Text highlighted comments.
+   //
    $(document.body).append("<span id=\"comment-respond\">Respond</span>");
    var widget = $('#comment-respond');
    widget.css('position','absolute');
@@ -11,7 +26,7 @@ $(document).ready( function() {
    var author = "";
    var quote = "";
    
-   $('#primaryContent .commentlist .comment .entry-content, #primaryContent .single .description').each( function() {
+   $('.commentlist > .comment, .quotable').each( function() {
       $(this).mouseup(function(e){
          widget.css('top',e.pageY+10);
          widget.css('left',e.pageX+10);
@@ -20,8 +35,8 @@ $(document).ready( function() {
             widget.fadeTo("normal",0.3);
             var comment = findCommentFor(e.target);
             if(comment) {
-               permalink = comment.find('.post-info a').get(0).href;
-               author = comment.find('.author a.fn').get(0).text;
+               permalink = findPermalinkFor(comment).href;
+               author = findAuthorFor(comment).text;
             } else {
                permalink = false;
                author = false;
@@ -55,26 +70,35 @@ $(document).ready( function() {
       widget.hide();
    });
    
-   $('#primaryContent .commentlist .comment a').click(function(e){
+   $('.commentlist .comment a').click(function(e){
       var anchor = getAnchor(this.href);
-      if($('#primaryContent .commentlist '+anchor).length > 0) {
+      if($('.commentlist '+anchor).length > 0) {
          setCurrentComment(anchor);
          $.scrollTo(anchor, {duration: 1000});
          return false;
       }
    });
    
-   // Related comments & replies trick.
+   //
+   // Comment traversing utilities :: related comments & replies trick.
+   //
    var relatedComments = new Array();
    var relatedReplies = new Array();
+   
    $('.commentlist .comment p:first-child a:first-child').each(function() { 
       if(this.text.substring(1,-1) == "@") {
          var targetAuthor = this.text.substring(1,this.text.length);
          var replyComment = findCommentFor(this);
-         var replyAuthor = replyComment.find('.author a.fn').get(0);
-         var replyPermalink = replyComment.find('.post-info a').get(0);
+         var replyAuthor = findAuthorFor(replyComment);
+         var replyPermalink = findPermalinkFor(replyComment);
          var targetAnchor = getAnchor(this.href);
-         var reference = '<a href="'+replyPermalink.href+'">'+replyAuthor.innerHTML+'</a>'
+         var reference = '<a href="'+replyPermalink.href+'">'+replyAuthor.innerHTML+'</a>';
+         // Threading Test
+         var parentComment = $('.commentlist #'+targetAnchor.substr(1,targetAnchor.length));
+         if(parentComment.length > 0){
+            $(parentComment.get(0)).after(replyComment.addClass('response'));
+         }
+         // END Threading Test
          if(!relatedReplies[targetAnchor]) {
             relatedReplies[targetAnchor] = new Array(reference);
          } else {
@@ -82,7 +106,8 @@ $(document).ready( function() {
          }
       }
    });
-   $('#primaryContent .commentlist .comment').each( function() {
+   
+   $('.commentlist > .comment').each( function() {
       var currentAuthor = findAuthorFor(this); // 'this' is a comment.
       var currentPermalink = findPermalinkFor(this);
       var currentAnchor = getAnchor(currentPermalink.href);
@@ -129,7 +154,7 @@ $(document).ready( function() {
                commentControlsTimeout = setTimeout(function(){
                   commentControls.fadeIn("fast");
                   commentControlsTimeout = false; // Clear the timeout variable when the function completes.
-               }, 400);
+               }, 300);
             } else {
                clearTimeout(commentControlsTimeout);
                commentControlsTimeout = false;
@@ -144,18 +169,23 @@ $(document).ready( function() {
                commentControlsTimeout = setTimeout(function(){
                   commentControls.fadeOut("fast");
                   commentControlsTimeout = false;
-               }, 300);  
+               }, 500);  
             }
          }
       );
    });
 });
 
-// Loops up through parent elements until it reaches a comment container.
+/*
+   FUNCTION:
+   findCommentFor(HTML element)
+   Loops up through parent elements until it reaches a comment container.
+   Automatically dies if the target was a 'quotable' container.
+*/
 function findCommentFor(el) {
    el = $(el);
    while(!el.hasClass('comment')) {
-      if(el.hasClass('hfeed')) {
+      if(el.hasClass('quotable')) {
          return false;
       }
       el = $(el.parent());
@@ -163,15 +193,29 @@ function findCommentFor(el) {
    return el;
 }
 
+/*
+   FUNCTION:
+   FindPermaLinkFor(HTML element)
+   Returns a permalink for the specified element.
+*/
 function findPermalinkFor(el){
-   return $(el).find('.post-info a').get(0);
+   return $(el).find('.comment-meta a').get(0);
 }
 
+/*
+   FUNCTION:
+   FindAuthorFor(HTML element)
+   Returns a the author of the specified element.
+*/
 function findAuthorFor(el){
-   return $(el).find('.author a.fn').get(0);
+   return $(el).find('.fn a').get(0);
 }
 
-// Prints relative comments and appends a class to the current item.
+/*
+   FUNCTION:
+   PrintRelatives(array(HTML objects), htmlObject)
+   Prints relative comments and appends a class to the current item.
+*/
 function printRelatives(relatives,current){
    var out = "";
    var liClass = "";
@@ -182,7 +226,11 @@ function printRelatives(relatives,current){
    return out;
 }
 
-// Prints replies to a given.
+/*
+   FUNCTION:
+   PrintReplies(array(HTML objects))
+   Prints replies to a specific comment.
+*/
 function printReplies(replies){
    var out = "";
    for (var i = 0; i <= replies.length - 1; i++){
@@ -191,18 +239,32 @@ function printReplies(replies){
    return out;
 }
 
-// Resets current comment and appends class to the supplied comment id.
+/*
+   FUNCTION:
+   PrintReplies(string)
+   Resets current comment and appends class to the supplied comment id..
+*/
 function setCurrentComment(id) {
-   $('#primaryContent .commentlist .current-comment').removeClass('current-comment');
-   $($('#primaryContent .commentlist '+id).get(0)).addClass('current-comment');
+   $('.commentlist .current-comment').removeClass('current-comment');
+   $($('.commentlist '+id).get(0)).addClass('current-comment');
 }
 
-// Retrieves anchor from a given URL.
+/*
+   FUNCTION:
+   GetAnchor(string)
+   Retrieves anchor from a given URL.
+*/
 function getAnchor(href){
    return '#'+href.split("#")[1];
 }
 
-// Sets up a comment based off the target. The text highlight and respond works slightly differently.
+/*
+   FUNCTION:
+   SetupComment(HTML object, string)
+   Sets up a comment body in the comment form based off the target.
+   - This method is used by the automated respond or quote buttons. 
+   - The text highlight and respond works slightly differently.
+*/
 function setupComment(target,quote) {
    var comment = findCommentFor(target);
    var directive = '<p><a href="'+findPermalinkFor(comment).href+'">@'+findAuthorFor(comment).text+'</a></p>';
@@ -221,20 +283,28 @@ function setupComment(target,quote) {
             }
          });
       } else {
-         quote = comment.find('.entry-content').get(0).innerHTML;
+         quote = comment.innerHTML;
       }
       quote += "</blockquote>";
-      quote = quote.replace("<!-- Start your comment here. -->","");
+      quote = quote.replace("\n<!-- Start your comment below this line. -->\n\n",""); // Would be better implemented with regex?
+      quote = quote.replace("\n<!-- Start your comment below this line. -->\n","");
+      quote = quote.replace("<!-- Start your comment below this line. -->","");
    } else {
       quote = "";
    }
-   $('#comment').val(directive+quote+"\n<p>\n<!-- Start your comment here. -->\n</p>");
+   $('#comment').val(directive+quote+"\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
    $.scrollTo('#comment', {duration: 1000});
 }
 
-
-// Grabs the text that is currently selected.
-// Slightly modified from: http://www.codetoad.com/javascript_get_selected_text.asp
+/*
+   FUNCTION:
+   GetSelText()
+   Grabs the text that is currently selected.
+   
+   Slightly modified from original source: 
+   Jeff Anderson (9/1/2006)
+   http://www.codetoad.com/javascript_get_selected_text.asp
+*/
 function getSelText()
 {
    var txt = '';
