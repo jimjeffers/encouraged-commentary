@@ -82,9 +82,10 @@ $(document).ready( function() {
    //
    // Comment traversing utilities :: related comments & replies trick.
    //
+   var commentList = $($('.commentlist').get(0));
    var relatedComments = new Array();
    var relatedReplies = new Array();
-   var sortedCommentary = $($('.commentlist').get(0)).hasClass('sorted-commentary');
+   var sortedCommentary = commentList.hasClass('sorted-commentary');
    $('.commentlist .comment p:first-child a:first-child').each(function() { 
       if(this.text.substring(1,-1) == "@") {
          var targetAuthor = this.text.substring(1,this.text.length);
@@ -108,6 +109,13 @@ $(document).ready( function() {
       }
    });
    
+   var quoteReplyControls = '';
+   if(!commentList.hasClass('no-quote-control')) {
+      quoteReplyControls += '<a href="#" class="comment-quote">Quote</a>'
+   }
+   if(!commentList.hasClass('no-reply-control')) {
+      quoteReplyControls += '<a href="#" class="comment-reply">Reply</a>'
+   }
    $('.commentlist > .comment').each( function() {
       var currentAuthor = findAuthorFor(this); // 'this' is a comment.
       var currentPermalink = findPermalinkFor(this);
@@ -118,7 +126,7 @@ $(document).ready( function() {
       } else {
          relatedComments[currentAuthor.text][relatedComments[currentAuthor.text].length] = reference;
       }
-      $(this).append('<div class="comment-controls"><a href="#" class="comment-reply">Reply</a> <a href="#" class="comment-quote">quote</a></div>');
+      $(this).append('<div class="comment-controls">'+quoteReplyControls+'</div>');
       $(this).find('.comment-reply, .comment-quote').each( function() {
          if($(this).hasClass('comment-reply')) { $(this).click(function(e){ setupComment(this,false); return false; }); }
          if($(this).hasClass('comment-quote')) { $(this).click(function(e){ setupComment(this,true); return false; }); }
@@ -130,12 +138,12 @@ $(document).ready( function() {
          function(){
             if(relatedComments[currentAuthor.text].length > 1 || relatedReplies[currentAnchor]) {
                if($(this).find('div.comment-controls div.related-replies, div.comment-controls div.related-comments').length < 1) {
-                  if(relatedReplies[currentAnchor] && !$($('.commentlist').get(0)).hasClass('no-replies')){
+                  if(relatedReplies[currentAnchor] && !commentList.hasClass('no-replies')){
                      var wording = "";
                      (relatedReplies[currentAnchor].length > 1) ? wording = "replies" : wording = "reply";
                      commentControls.append('<div class="related-replies"><h6>'+(relatedReplies[currentAnchor].length)+' '+wording+' to this comment</h6><ol>'+printReplies(relatedReplies[currentAnchor])+'</ol></div>');
                   }
-                  if(relatedComments[currentAuthor.text].length > 1 && !$($('.commentlist').get(0)).hasClass('no-relatives')){
+                  if(relatedComments[currentAuthor.text].length > 1 && !commentList.hasClass('no-relatives')){
                      var wording = "";
                      (relatedComments[currentAuthor.text].length-1 > 1) ? wording = "comments" : wording = "comment";
                      commentControls.append('<div class="related-comments"><h6>'+(relatedComments[currentAuthor.text].length-1)+' other '+wording+' from '+currentAuthor.text+'</h6><ol>'+printRelatives(relatedComments[currentAuthor.text],reference)+'</ol></div>');
@@ -208,7 +216,7 @@ function findPermalinkFor(el){
    Returns a the author of the specified element.
 */
 function findAuthorFor(el){
-   return $(el).find('.comment-author').get(0);
+   return $(el).find('.comment-author-name').get(0);
 };
 
 /*
