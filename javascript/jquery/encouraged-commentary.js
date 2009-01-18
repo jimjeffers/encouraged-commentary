@@ -288,7 +288,7 @@ $(document).ready( function() {
          if(form.find('input[type="submit"]').get(0)) {
             $(form.find('input[type="submit"]').get(0)).attr("disabled",true);
          };
-         return false;
+         return true;
       });
    }
 });
@@ -436,10 +436,9 @@ function setupComment(target,quoted) {
    } else {
       quote = "";
    }
-   
-   if(directivePresent){
-      quote = directive + quote;
-   }
+
+   quote = directive + quote;
+   addOrShowDeleteQuoteControl(directive);
    
    if(noLightbox || !form) {
       if(noPreview) {
