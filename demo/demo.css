@@ -30,7 +30,8 @@
       margin: 0.5em 0;
    }
    
-   .comment blockquote {
+   .comment blockquote,
+   #encouraged-preview blockquote {
       border-left: 2px solid #666;
       color: #999;
       font-size: 0.875em;
@@ -42,4 +43,19 @@
    
    a {
       color: #f90;
+   }
+   
+   textarea {
+      width: 450px;
+      height: 150px;
+   }
+   
+   #respond {
+      position: relative;
+   }
+   
+   #comment-lightbox h3 {
+      color:#000000;
+      font-size:1em;
+      margin: 0 0 0.5em 0;
    }

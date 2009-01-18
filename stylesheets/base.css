@@ -145,3 +145,100 @@ into your own stylesheet and enhance them to your own taste.
       background: #f90;
       color: #333;
    }
+   
+   
+   /* Styles for the preview container. */
+   #encouraged-preview {
+      color: #999;
+      font-size: 0.875em;
+      line-height: 1.25em;
+      left: 470px;
+      position: absolute;
+      top: 133px;
+      width: 400px;
+   }
+   
+   /* Alternate height for large comments. */
+   .extended {
+      height: 300px;
+   }
+   
+   /* Kind of important if you are using the preview with or without the lightbox */
+   .encouraged-form {
+      position: relative;
+   }
+   
+   /* This is to style the opt out of quoting button. */
+   #encouraged-comment-delete {
+      left: 470px;
+      position: absolute;
+      top: 90px;
+   }
+   
+   /* Lightbox Styles */
+   #comment-lightbox {
+      background: #fff;
+      border: 10px solid #000;
+      height: 480px;
+      left: 50%;
+      margin-left: -320px;
+      margin-top: -240px;
+      overflow: hidden;
+      position: fixed;
+      top: 50%;
+      width: 640px;
+      z-index: 2001;
+   }
+   
+   /* This layer is the fade behind the lightbox */
+   #comment-lightbox-background {
+      background: #000;
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 2000;
+   }
+   
+   /* All of the work below here is to restyle the comment form when it is pulled into the lightbox. */
+   #comment-lightbox .encouraged-form {
+      padding: 10px;
+   }
+   
+   #comment-lightbox .encouraged-form label {
+      color: #000;
+      font-size: 0.75em;
+   }
+   
+   #comment-lightbox .encouraged-form #comment {
+      height: 290px;
+      width: 290px;
+   }
+   
+   #comment-lightbox .encouraged-form #encouraged-preview {
+      background: #fff;
+      height: 430px;
+      left: 330px;
+      overflow: auto;
+      padding: 10px;
+      top: 30px;
+      width: 290px;
+   }
+   
+   #comment-lightbox #encouraged-comment-delete {
+      padding: 4px 0 0 0;
+      top: 0;
+      left: 330px;
+   }
+   
+   /* This styling is applied to the close button that is automatically generated when the lightbox is called. */
+   #encouraged-comment-lightbox-toggle {
+      background: #000;
+      color: #fff;
+      display: block;
+      right: 0;
+      position: absolute;
+      padding: 0 0 4px 4px;
+      top: 0;
+   }

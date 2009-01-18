@@ -13,7 +13,33 @@
 * http://github.com/jimjeffers/encouraged-commentary/tree/master
 */
 
+//
+// Global vars. Should really grab all of the vars including the ones initialized in the ready block below into a dedicated
+// global object. That would be a smarter method.
+//
+var form;
+var commentList;
+var lightbox;
+var lightboxBackground;
+var quote;
+var preview;
+var noLightbox;
+var noPreview;
+
 $(document).ready( function() {   
+   //
+   // Check for vars within the dom.
+   //
+   form = $($('.encouraged-form').get(0));
+   commentList = $($('.commentlist').get(0));
+   var sortedCommentary = commentList.hasClass('sorted-commentary');
+   var noRelatives = commentList.hasClass('no-relatives');
+   var noReplies = commentList.hasClass('no-replies');
+   noPreview = commentList.hasClass('no-preview');
+   var noQuoteControl = commentList.hasClass('no-quote-control');
+   var noReplyControl = commentList.hasClass('no-reply-control');
+   noLightbox = commentList.hasClass('no-lightbox');
+   
    //
    // Text highlighted comments.
    //
@@ -24,7 +50,6 @@ $(document).ready( function() {
 
    var permalink = "";
    var author = "";
-   var quote = "";
    
    $('.commentlist > .comment, .quotable').each( function() {
       $(this).mouseup(function(e){
@@ -60,8 +85,22 @@ $(document).ready( function() {
       if(permalink && author) {
          directive = "<p><a href=\""+permalink+"\">@"+author+"</a>:</p>\n"
       }
-      $('#comment').val(directive+"<blockquote>"+quote+"</blockquote>\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
-      $.scrollTo('#comment', {duration: 1000});
+      quote = directive+"<blockquote>"+quote+"</blockquote>\n<p>\n";
+      if(noLightbox) {
+         if(!form) {
+            $('#comment').val(quote+"<!-- Start your comment below this line. -->\n\n</p>");
+         }
+         $.scrollTo('#comment', {duration: 1000});
+      } else {
+         setupLightbox();
+      }
+      
+      if(!noPreview) {
+         preview.html(quote);
+      }
+      
+      addOrShowDeleteQuoteControl(directive);
+      
       $(this).fadeTo(1,0);
       widget.hide();
    });
@@ -82,13 +121,11 @@ $(document).ready( function() {
    //
    // Comment traversing utilities :: related comments & replies trick.
    //
-   var commentList = $($('.commentlist').get(0));
    var relatedComments = new Array();
    var relatedReplies = new Array();
-   var sortedCommentary = commentList.hasClass('sorted-commentary');
    $('.commentlist .comment p:first-child a:first-child').each(function() { 
-      if(this.text.substring(1,-1) == "@") {
-         var targetAuthor = this.text.substring(1,this.text.length);
+      if($(this).text().substring(1,-1) == "@") {
+         var targetAuthor = $(this).text().substring(1,$(this).text().length);
          var replyComment = findCommentFor(this);
          var replyAuthor = findAuthorFor(replyComment);
          var replyPermalink = findPermalinkFor(replyComment);
@@ -110,10 +147,10 @@ $(document).ready( function() {
    });
    
    var quoteReplyControls = '';
-   if(!commentList.hasClass('no-quote-control')) {
+   if(!noQuoteControl) {
       quoteReplyControls += '<a href="#" class="comment-quote">Quote</a>'
    }
-   if(!commentList.hasClass('no-reply-control')) {
+   if(!noReplyControl) {
       quoteReplyControls += '<a href="#" class="comment-reply">Reply</a>'
    }
    $('.commentlist > .comment').each( function() {
@@ -138,12 +175,12 @@ $(document).ready( function() {
          function(){
             if(relatedComments[currentAuthor.text].length > 1 || relatedReplies[currentAnchor]) {
                if($(this).find('div.comment-controls div.related-replies, div.comment-controls div.related-comments').length < 1) {
-                  if(relatedReplies[currentAnchor] && !commentList.hasClass('no-replies')){
+                  if(relatedReplies[currentAnchor] && !noReplies){
                      var wording = "";
                      (relatedReplies[currentAnchor].length > 1) ? wording = "replies" : wording = "reply";
                      commentControls.append('<div class="related-replies"><h6>'+(relatedReplies[currentAnchor].length)+' '+wording+' to this comment</h6><ol>'+printReplies(relatedReplies[currentAnchor])+'</ol></div>');
                   }
-                  if(relatedComments[currentAuthor.text].length > 1 && !commentList.hasClass('no-relatives')){
+                  if(relatedComments[currentAuthor.text].length > 1 && !noRelatives){
                      var wording = "";
                      (relatedComments[currentAuthor.text].length-1 > 1) ? wording = "comments" : wording = "comment";
                      commentControls.append('<div class="related-comments"><h6>'+(relatedComments[currentAuthor.text].length-1)+' other '+wording+' from '+currentAuthor.text+'</h6><ol>'+printRelatives(relatedComments[currentAuthor.text],reference)+'</ol></div>');
@@ -181,6 +218,48 @@ $(document).ready( function() {
                }, 500);  
             }
          });
+   });
+   
+   //
+   // Comment form handler.
+   //
+   if(form) {
+      if(form.find('input[type="submit"]').get(0)) {
+         $(form.find('input[type="submit"]').get(0)).removeAttr("disabled"); 
+      }
+      $(form.find('input[type="submit"]').get(0)).attr("disabled",false);
+      if(!noPreview){
+         form.append('<div id="encouraged-preview">&nbsp;</div>');
+         preview = $($('#encouraged-preview').get(0));
+         var comment = $($('#comment').get(0));
+      
+         comment.keyup(function(){
+            preview.html(quote+fixWhiteSpace(comment.val()));
+            if(comment.val().length > 400 && !comment.hasClass('extended')) {
+               comment.addClass('extended');
+            } else if(comment.val().length < 400 && comment.hasClass('extended')) {
+               comment.removeClass('extended');
+            }
+         });
+      }
+   }
+   
+   if(!noLightbox) {
+      $("body").append('<div id="comment-lightbox"></div><div id="comment-lightbox-background"></div>');
+      lightbox = $('#comment-lightbox').hide();
+      lightboxBackground = $('#comment-lightbox-background').hide();
+      lightboxBackground.click(hideLightbox);
+   }
+   
+   //
+   // Handle form submission.
+   //
+   form.submit(function(){
+      $($('#comment').get(0)).val(preview.html());
+      if(form.find('input[type="submit"]').get(0)) {
+         $(form.find('input[type="submit"]').get(0)).attr("disabled",true);
+      };
+      return true;
    });
 });
 
@@ -268,21 +347,48 @@ function getAnchor(href){
 
 /*
    FUNCTION:
+   SetupLightbox()
+   Grabs the HTML comment form and leaves an invisible anchor in it's place.
+*/
+function setupLightbox() {
+   if(!$('#encouraged-comment-form-anchor').get(0)) {
+      lightbox.after('<a href="#" id="encouraged-comment-form-anchor"></a>');
+   }
+   lightbox.html(form);
+   lightbox.append('<a href="#" id="encouraged-comment-lightbox-toggle">Close</a>');
+   $('#encouraged-comment-lightbox-toggle').click(hideLightbox);
+   lightbox.fadeIn("normal");
+   lightboxBackground.show().fadeTo("slow",0.3);
+};
+
+/*
+   FUNCTION:
+   HideLightbox()
+   Fade out the lightbox and put the comment form back in it's place.
+*/
+function hideLightbox() {
+   lightbox.hide();
+   $($('#encouraged-comment-form-anchor').get(0)).after(form);
+   lightboxBackground.fadeOut("slow");
+};
+
+/*
+   FUNCTION:
    SetupComment(HTML object, string)
    Sets up a comment body in the comment form based off the target.
    - This method is used by the automated respond or quote buttons. 
    - The text highlight and respond works slightly differently.
 */
-function setupComment(target,quote) {
+function setupComment(target,quoted) {
    var comment = findCommentFor(target);
    var directive = '<p><a href="'+findPermalinkFor(comment).href+'">@'+findAuthorFor(comment).text+'</a></p>';
-   if(quote) {
+   if(quoted) {
       quote = "<blockquote>";
       if(comment.find('.entry-content > p').length > 0) {
          comment.find('.entry-content > p').each(function() {
             var directivePresent = false;
             if($(this).find("a:first-child").length > 0) {
-               if($(this).find("a:first-child").get(0).text.substring(1,-1) == "@") {
+               if($($(this).find("a:first-child").get(0)).text().substring(1,-1) == "@") {
                   directivePresent = true;
                }
             }
@@ -300,8 +406,52 @@ function setupComment(target,quote) {
    } else {
       quote = "";
    }
-   $('#comment').val(directive+quote+"\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
-   $.scrollTo('#comment', {duration: 1000});
+   
+   quote = directive + quote;
+   
+   if(noLightbox) {
+      if(noPreview) {
+         $('#comment').val(quote+"\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
+      }
+      $.scrollTo('#comment', {duration: 1000});
+   } else {
+      setupLightbox();
+   }
+   
+   if(!noPreview) {
+      preview.html(quote);
+   }
+};
+
+/*
+   FUNCTION:
+   AddOrShowDeleteQuoteControl(String)
+*/
+function addOrShowDeleteQuoteControl(directive){
+   var deleteCommentControl = form.find('#encouraged-comment-delete').get(0);
+   if(directive == "") {
+      directive = "Article";
+   } else {
+      if($(directive).find('a').get(0)){
+         directive = $($(directive).find('a').get(0)).text().replace('@','');
+      }
+   }
+   
+   if(!deleteCommentControl) {
+      form.append('<a href="#" id="encouraged-comment-delete">Quoting: '+directive+' (click to cancel)</a>');
+      deleteCommentControl = $(form.find('#encouraged-comment-delete').get(0));
+      deleteCommentControl.click(function(){
+         $(this).hide();
+         quote = "";
+         if(!noPreview){
+            preview.html(fixWhiteSpace($('#comment').val()));
+         }
+         return false;
+      });
+   } else {
+      $(deleteCommentControl).show();
+      $(deleteCommentControl).html("Quoting: "+directive+" (click to cancel)");
+   }
 };
 
 /*
@@ -325,9 +475,18 @@ function getSelText()
       txt = document.selection.createRange().text;
    } else return;
    if(String(txt).length > 2) {
-      txt = String(txt).replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br/>");
-      return "<p>"+txt+"</p>";
+      return fixWhiteSpace(txt);
    } else {
       return false;
    }
+};
+
+/*
+   FUNCTION:
+   FixWhiteSpace(String)
+   Converts whitespace in strings to html.
+*/
+function fixWhiteSpace(str) {
+   str = String(str).replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br/>");
+   return "<p>"+str+"</p>";
 };
