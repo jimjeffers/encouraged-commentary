@@ -254,11 +254,12 @@ $(document).ready( function() {
       }
    }
    
-   if(!noLightbox) {
+   if(!noLightbox && form) {
       $("body").append('<div id="comment-lightbox"></div><div id="comment-lightbox-background"></div>');
       lightbox = $('#comment-lightbox').hide();
       lightboxBackground = $('#comment-lightbox-background').hide();
       lightboxBackground.click(hideLightbox);
+      form.after('<a href="#" id="encouraged-comment-form-anchor"></a>');
    }
    
    //
@@ -364,9 +365,6 @@ function getAnchor(href){
 */
 function setupLightbox() {
    if(form){
-      if(!$('#encouraged-comment-form-anchor').get(0)) {
-         lightbox.after('<a href="#" id="encouraged-comment-form-anchor"></a>');
-      }
       lightbox.html(form);
       lightbox.append('<a href="#" id="encouraged-comment-lightbox-toggle">Close</a>');
       $('#encouraged-comment-lightbox-toggle').click(hideLightbox);
