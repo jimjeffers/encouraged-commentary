@@ -21,7 +21,7 @@ var form;
 var commentList;
 var lightbox;
 var lightboxBackground;
-var quote;
+var quote="";
 var preview;
 var noLightbox;
 var noPreview;
@@ -95,7 +95,7 @@ $(document).ready( function() {
       if(permalink && author) {
          directive = "<p><a href=\""+permalink+"\">@"+author+"</a>:</p>\n"
       }
-      quote = directive+"<blockquote>"+quote+"</blockquote>\n<p>\n";
+      quote = directive+"<blockquote>"+quote+"</blockquote>\n";
       if(noLightbox || !form) {
          if(!form) {
             $('#comment').val(quote+"<!-- Start your comment below this line. -->\n\n</p>");
@@ -242,14 +242,24 @@ $(document).ready( function() {
          form.append('<div id="encouraged-preview">&nbsp;</div>');
          preview = $($('#encouraged-preview').get(0));
          var comment = $($('#comment').get(0));
-      
+         var commentPreviewUpdate;
+         
          comment.keyup(function(){
-            preview.html(quote+fixWhiteSpace(comment.val()));
-            if(comment.val().length > 400 && !comment.hasClass('extended')) {
-               comment.addClass('extended');
-            } else if(comment.val().length < 400 && comment.hasClass('extended')) {
-               comment.removeClass('extended');
+            if(commentPreviewUpdate) {
+               clearTimeout(commentPreviewUpdate);
             }
+            commentPreviewUpdate = setTimeout(function(){
+               if(!quote) {
+                  preview.html(fixWhiteSpace(comment.val()));
+               } else {
+                  preview.html(quote+fixWhiteSpace(comment.val()));
+               }
+               if(comment.val().length > 400 && !comment.hasClass('extended')) {
+                  comment.addClass('extended');
+               } else if(comment.val().length < 400 && comment.hasClass('extended')) {
+                  comment.removeClass('extended');
+               }
+            }, 250);
          });
       }
    }
@@ -267,11 +277,18 @@ $(document).ready( function() {
    //
    if(form) {
       form.submit(function(){
-         $($('#comment').get(0)).val(preview.html());
+         var comment = $(form.find('#comment').get(0));
+         var content = "";
+         if(!quote) {
+            content = fixWhiteSpace(comment.val());
+         } else {
+            content = quote+fixWhiteSpace(comment.val());
+         }
+         comment.val(content);
          if(form.find('input[type="submit"]').get(0)) {
             $(form.find('input[type="submit"]').get(0)).attr("disabled",true);
          };
-         return true;
+         return false;
       });
    }
 });
@@ -394,12 +411,12 @@ function hideLightbox() {
 */
 function setupComment(target,quoted) {
    var comment = findCommentFor(target);
-   var directive = '<p><a href="'+findPermalinkFor(comment).href+'">@'+findAuthorFor(comment).text+'</a></p>';
+   var directive = '<p><a href="'+findPermalinkFor(comment).href+'">@'+$(findAuthorFor(comment)).text()+'</a></p>';
+   var directivePresent = false;
    if(quoted) {
       quote = "<blockquote>";
       if(comment.find('.entry-content > p').length > 0) {
          comment.find('.entry-content > p').each(function() {
-            var directivePresent = false;
             if($(this).find("a:first-child").length > 0) {
                if($($(this).find("a:first-child").get(0)).text().substring(1,-1) == "@") {
                   directivePresent = true;
@@ -420,7 +437,9 @@ function setupComment(target,quoted) {
       quote = "";
    }
    
-   quote = directive + quote;
+   if(directivePresent){
+      quote = directive + quote;
+   }
    
    if(noLightbox || !form) {
       if(noPreview) {
