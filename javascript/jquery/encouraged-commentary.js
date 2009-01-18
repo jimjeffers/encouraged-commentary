@@ -25,19 +25,29 @@ var quote;
 var preview;
 var noLightbox;
 var noPreview;
+var sortedCommentary;
+var noRelatives;
+var noReplies;
+var noQuoteControl;
+var noReplyControl;
 
 $(document).ready( function() {   
    //
-   // Check for vars within the dom.
+   // Check for vars within the DOM.
    //
-   form = $($('.encouraged-form').get(0));
+   form = $('.encouraged-form').get(0);
+   if(form) {
+      form = $(form);
+   } else {
+      form = false;
+   }
    commentList = $($('.commentlist').get(0));
-   var sortedCommentary = commentList.hasClass('sorted-commentary');
-   var noRelatives = commentList.hasClass('no-relatives');
-   var noReplies = commentList.hasClass('no-replies');
+   sortedCommentary = commentList.hasClass('sorted-commentary');
+   noRelatives = commentList.hasClass('no-relatives');
+   noReplies = commentList.hasClass('no-replies');
    noPreview = commentList.hasClass('no-preview');
-   var noQuoteControl = commentList.hasClass('no-quote-control');
-   var noReplyControl = commentList.hasClass('no-reply-control');
+   noQuoteControl = commentList.hasClass('no-quote-control');
+   noReplyControl = commentList.hasClass('no-reply-control');
    noLightbox = commentList.hasClass('no-lightbox');
    
    //
@@ -86,7 +96,7 @@ $(document).ready( function() {
          directive = "<p><a href=\""+permalink+"\">@"+author+"</a>:</p>\n"
       }
       quote = directive+"<blockquote>"+quote+"</blockquote>\n<p>\n";
-      if(noLightbox) {
+      if(noLightbox || !form) {
          if(!form) {
             $('#comment').val(quote+"<!-- Start your comment below this line. -->\n\n</p>");
          }
@@ -254,13 +264,15 @@ $(document).ready( function() {
    //
    // Handle form submission.
    //
-   form.submit(function(){
-      $($('#comment').get(0)).val(preview.html());
-      if(form.find('input[type="submit"]').get(0)) {
-         $(form.find('input[type="submit"]').get(0)).attr("disabled",true);
-      };
-      return true;
-   });
+   if(form) {
+      form.submit(function(){
+         $($('#comment').get(0)).val(preview.html());
+         if(form.find('input[type="submit"]').get(0)) {
+            $(form.find('input[type="submit"]').get(0)).attr("disabled",true);
+         };
+         return true;
+      });
+   }
 });
 
 /*
@@ -351,14 +363,16 @@ function getAnchor(href){
    Grabs the HTML comment form and leaves an invisible anchor in it's place.
 */
 function setupLightbox() {
-   if(!$('#encouraged-comment-form-anchor').get(0)) {
-      lightbox.after('<a href="#" id="encouraged-comment-form-anchor"></a>');
+   if(form){
+      if(!$('#encouraged-comment-form-anchor').get(0)) {
+         lightbox.after('<a href="#" id="encouraged-comment-form-anchor"></a>');
+      }
+      lightbox.html(form);
+      lightbox.append('<a href="#" id="encouraged-comment-lightbox-toggle">Close</a>');
+      $('#encouraged-comment-lightbox-toggle').click(hideLightbox);
+      lightbox.fadeIn("normal");
+      lightboxBackground.show().fadeTo("slow",0.3);
    }
-   lightbox.html(form);
-   lightbox.append('<a href="#" id="encouraged-comment-lightbox-toggle">Close</a>');
-   $('#encouraged-comment-lightbox-toggle').click(hideLightbox);
-   lightbox.fadeIn("normal");
-   lightboxBackground.show().fadeTo("slow",0.3);
 };
 
 /*
@@ -370,6 +384,7 @@ function hideLightbox() {
    lightbox.hide();
    $($('#encouraged-comment-form-anchor').get(0)).after(form);
    lightboxBackground.fadeOut("slow");
+   return false;
 };
 
 /*
@@ -409,7 +424,7 @@ function setupComment(target,quoted) {
    
    quote = directive + quote;
    
-   if(noLightbox) {
+   if(noLightbox || !form) {
       if(noPreview) {
          $('#comment').val(quote+"\n<p>\n<!-- Start your comment below this line. -->\n\n</p>");
       }

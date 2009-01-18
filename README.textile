@@ -54,6 +54,72 @@ Becomes:
    .../body>
 </pre>
 
+h2. Designate Comment Textarea with id="comment"
+
+This step is very important! You will need to give the target textarea an ID *'comment'*.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <form method="post" id="commentform">
+      <h3>Leave a Reply</h3>
+      ...
+      <p><textarea name="comment"></textarea></p>
+      <p><input name="submit" type="submit" id="submit" value="Submit Comment" />
+      </p>
+   </form>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <form method="post" id="commentform">
+      <h3>Leave a Reply</h3>
+      ...
+      <p><textarea name="comment" id="comment"></textarea></p>
+      <p><input name="submit" type="submit" id="submit" value="Submit Comment" />
+      </p>
+   </form>
+</code>
+   .../body>
+</pre>
+
+h2. [NEW FEATURE] Get a lightbox, live preview, and generate HTML on the fly instead of the TextArea
+
+To get form enhancements on your site all you need to do is add the class *'encouraged-form'* for your comment form. Once you do this users will no longer be forced to the bottom of your page. Instead, your form will be temporarily transported into a lightbox and then put back if the user cancels out. Additionally, the directive and quote are stored in javascript and the user is given a manner to remove the quote / directive from their comment if they'd like. This is validated / communicated to the user as they will see a live preview of their comment, generated for them as they type! Any of these features can be toggled off and if you don't add the encouraged-form class everything behaves as it once did before.
+
+This:
+
+<pre>
+   <body...
+<code>
+   <form method="post" id="commentform">
+      <h3>Leave a Reply</h3>
+      ...
+   </form>
+</code>
+   .../body>
+</pre>
+
+Becomes:
+
+<pre>
+   <body...
+<code>
+   <form method="post" id="commentform" class="encouraged-form">
+      <h3>Leave a Reply</h3>
+      ...
+   </form>
+</code>
+   .../body>
+</pre>
+
 h2. Quotable Comments
 
 For quotable comments things are a little different. Here you must *refrain from using the quotable class* and instead follow some basic conventions in your comment markup. First, give the HTML object that contains all of your comments the class 'commentlist' then make sure every individual comment has the class 'comment' applied to it.
@@ -178,7 +244,7 @@ Becomes:
 
 h3. Designate Comment Authors
 
-Next, you will need to designate the element in your HTML containing the comment's author name. Simply add the class *'comment-author'* to this element.
+Next, you will need to designate the element in your HTML containing the comment's author name. Simply add the class *'comment-author-name'* to this element.
 
 This:
 
@@ -375,19 +441,63 @@ Becomes:
 </code>
 </pre>
 
+h2. Disable Comment Lightbox: 
+
+To *turn this feature off* add the class "no-lightbox" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist no-lightbox">
+</code>
+</pre>
+
+h2. Disable Comment Preview: 
+
+To *turn this feature off* add the class "no-preview" to the comment list container in your HTML.
+
+This:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist">
+</code>
+</pre>
+
+Becomes:
+
+<pre>
+<code>
+   <h3 id="comments">3 Comments</h3>
+   <ol class="commentlist no-preview">
+</code>
+</pre>
+
 h1. Dependencies
 
 This project relies on "jQuery":http://jquery.com and the "jQuery ScrollTo plugin":http://plugins.jquery.com/project/ScrollTo.
 
 h1. Next Steps / Ideas
 
-*Build Quote HTML on Submit:* Instead of embedding straight HTML, add a user control to the comment form showing the quote and target author. This will allow the user to enter their comment in as normal while having the HTML output created on form submit.
-
-*Add live preview support:* Allow the user to see a live preview of their comment with response and target author as they type their comment. This will provide the user better feedback as to what has happened now that they have utilized this advanced commenting system.
-
-*Lightbox Form:* Users are not anticipating the page scroll to the bottom of the page. Instead it may be more applicable to present the comment form in a lightbox.
-
 *IE6/7/8 Support:* It looks like there is an error with the text highlight functionality in IE. If a user highlights some text in IE7 and responds to a comment the directive is not caught. I believe it has something to do with the target that is being captured from the onMouseUp listener.
+
+-*Build Quote HTML on Submit:* Instead of embedding straight HTML, add a user control to the comment form showing the quote and target author. This will allow the user to enter their comment in as normal while having the HTML output created on form submit.-
+
+-*Add live preview support:* Allow the user to see a live preview of their comment with response and target author as they type their comment. This will provide the user better feedback as to what has happened now that they have utilized this advanced commenting system.-
+
+-*Lightbox Form:* Users are not anticipating the page scroll to the bottom of the page. Instead it may be more applicable to present the comment form in a lightbox.-
 
 -*Looser coupling:* The code in my example is very tightly coupled to my markup. It would be better to provide a good convention which would allow others to incorporate this functionality into their site without overhauling their markup.-
 
