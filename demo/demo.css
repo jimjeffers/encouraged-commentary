@@ -8,28 +8,28 @@
       position: relative;
       width: 680px;
    }
-   
+
    h1, h2, h3 {
       display: block;
       margin: 1em 0;
    }
-   
+
    h1 {
       font-size: 2em;
    }
-   
+
    h2 {
       font-size: 1.5em;
    }
-   
+
    h3 {
       font-size: 1.25em;
    }
-   
+
    p {
       margin: 0.5em 0;
    }
-   
+
    .comment blockquote {
       border-left: 2px solid #666;
       color: #999;
@@ -39,7 +39,7 @@
       margin: 10px;
       padding-left: 10px;
    }
-   
+
    a {
       color: #f90;
    }

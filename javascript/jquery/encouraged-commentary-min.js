@@ -7,7 +7,7 @@
 * @version 1.0
 *
 * Intro Article:
-* http://donttrustthisguy.com/2009/01/04/encouraged-commentary/ 
+* http://donttrustthisguy.com/2009/01/04/encouraged-commentary/
 *
 * Source:
 * http://github.com/jimjeffers/encouraged-commentary/tree/master

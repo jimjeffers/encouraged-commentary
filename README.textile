@@ -190,7 +190,7 @@ This:
       <div class="vcard">
          <cite class="fn">
             <a href='http://example.com' rel='external' class='url'>Jon Doe</a>
-         </cite> <span class="says">says:</span>      
+         </cite> <span class="says">says:</span>
       </div>
       ...
       </li>
@@ -210,7 +210,7 @@ Becomes:
       <div class="vcard">
          <cite class="fn">
             <a href='http://example.com' rel='external' class='url comment-author-name'>Jon Doe</a>
-         </cite> <span class="says">says:</span>      
+         </cite> <span class="says">says:</span>
       </div>
       ...
       </li>
@@ -287,7 +287,7 @@ Becomes:
 </code>
 </pre>
 
-h2. Disable Related Comments: 
+h2. Disable Related Comments:
 
 To *turn this feature off* add the class "no-relatives" to the comment list container in your HTML.
 
@@ -309,7 +309,7 @@ Becomes:
 </code>
 </pre>
 
-h2. Disable Related Replies: 
+h2. Disable Related Replies:
 
 To *toggle this feature off* add the class "no-replies" to the comment list container in your HTML.
 
@@ -331,7 +331,7 @@ Becomes:
 </code>
 </pre>
 
-h2. Disable Comment Quote Button: 
+h2. Disable Comment Quote Button:
 
 To *toggle this feature off* add the class *"no-quote-control"* to the comment list container in your HTML.
 
@@ -353,7 +353,7 @@ Becomes:
 </code>
 </pre>
 
-h2. Disable Comment Reply Button: 
+h2. Disable Comment Reply Button:
 
 To *toggle this feature off* add the class *"no-reply-control"* to the comment list container in your HTML.
 

@@ -7,13 +7,13 @@
 * @version 1.0
 *
 * Intro Article:
-* http://donttrustthisguy.com/2009/01/04/encouraged-commentary/ 
+* http://donttrustthisguy.com/2009/01/04/encouraged-commentary/
 *
 * Source:
 * http://github.com/jimjeffers/encouraged-commentary/tree/master
 */
 
-$(document).ready( function() {   
+$(document).ready( function() {
    //
    // Text highlighted comments.
    //
@@ -25,7 +25,7 @@ $(document).ready( function() {
    var permalink = "";
    var author = "";
    var quote = "";
-   
+
    $('.commentlist > .comment, .quotable').each( function() {
       $(this).mouseup(function(e){
          widget.css('top',e.pageY+10);
@@ -45,7 +45,7 @@ $(document).ready( function() {
          }
       });
    });
-   
+
    widget.hover(
       function() {
          $(this).fadeTo("fast",1);
@@ -54,7 +54,7 @@ $(document).ready( function() {
          $(this).fadeTo("fast",0.3);
       }
    );
-   
+
    widget.mousedown(function(e){
       var directive = "";
       if(permalink && author) {
@@ -65,11 +65,11 @@ $(document).ready( function() {
       $(this).fadeTo(1,0);
       widget.hide();
    });
-   
+
    $(document.body).mousedown(function(){
       widget.hide();
    });
-   
+
    $('.commentlist .comment a').click(function(e){
       var anchor = getAnchor(this.href);
       if($('.commentlist '+anchor).length > 0) {
@@ -78,7 +78,7 @@ $(document).ready( function() {
          return false;
       }
    });
-   
+
    //
    // Comment traversing utilities :: related comments & replies trick.
    //
@@ -86,7 +86,7 @@ $(document).ready( function() {
    var relatedComments = new Array();
    var relatedReplies = new Array();
    var sortedCommentary = commentList.hasClass('sorted-commentary');
-   $('.commentlist .comment p:first-child a:first-child').each(function() { 
+   $('.commentlist .comment p:first-child a:first-child').each(function() {
       if(this.text.substring(1,-1) == "@") {
          var targetAuthor = this.text.substring(1,this.text.length);
          var replyComment = findCommentFor(this);
@@ -94,13 +94,13 @@ $(document).ready( function() {
          var replyPermalink = findPermalinkFor(replyComment);
          var targetAnchor = getAnchor(this.href);
          var reference = '<a href="'+replyPermalink.href+'">'+replyAuthor.innerHTML+'</a>';
-         
+
          // Sorting / Response handling.
          var parentComment = $('.commentlist #'+targetAnchor.substr(1,targetAnchor.length));
          if(parentComment.length > 0 && sortedCommentary){
             $(parentComment.get(0)).after(replyComment.addClass('response'));
          }
-         
+
          if(!relatedReplies[targetAnchor]) {
             relatedReplies[targetAnchor] = new Array(reference);
          } else {
@@ -108,7 +108,7 @@ $(document).ready( function() {
          }
       }
    });
-   
+
    var quoteReplyControls = '';
    if(!commentList.hasClass('no-quote-control')) {
       quoteReplyControls += '<a href="#" class="comment-quote">Quote</a>'
@@ -157,7 +157,7 @@ $(document).ready( function() {
                }
             }
             // Add a delay to the mouseover so we don't trigger comment controls off like crazy.
-            // This would read easier if we could come up with a good jQuery plugin to handle delay() 
+            // This would read easier if we could come up with a good jQuery plugin to handle delay()
             // and clearing timeouts.
             if(!commentControls.is(':visible') && !commentControlsTimeout) {
                commentControlsTimeout = setTimeout(function(){
@@ -178,7 +178,7 @@ $(document).ready( function() {
                commentControlsTimeout = setTimeout(function(){
                   commentControls.fadeOut("fast");
                   commentControlsTimeout = false;
-               }, 500);  
+               }, 500);
             }
          });
    });
@@ -270,7 +270,7 @@ function getAnchor(href){
    FUNCTION:
    SetupComment(HTML object, string)
    Sets up a comment body in the comment form based off the target.
-   - This method is used by the automated respond or quote buttons. 
+   - This method is used by the automated respond or quote buttons.
    - The text highlight and respond works slightly differently.
 */
 function setupComment(target,quote) {
@@ -308,8 +308,8 @@ function setupComment(target,quote) {
    FUNCTION:
    GetSelText()
    Grabs the text that is currently selected.
-   
-   Slightly modified from original source: 
+
+   Slightly modified from original source:
    Jeff Anderson (9/1/2006)
    http://www.codetoad.com/javascript_get_selected_text.asp
 */
